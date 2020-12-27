@@ -28,17 +28,17 @@
 
 		<div class="collapse navbar-collapse" id="navbarSupportedContent">
 			<ul class="navbar-nav mr-auto">
-				<li class="nav-item active"><a class="nav-link" href="#">Home
+				<li class="nav-item active"><a class="nav-link" href="main.jsp">Home
 						<span class="sr-only">(current)</span>
 				</a></li>
 				<%
 					if(userID.equals("guest")) {
 						%>
-				<li class="nav-item"><a class="nav-link" href="#">Read</a></li>
+				<li class="nav-item"><a class="nav-link" href="read.jsp">Read</a></li>
 					<%} else if(userID.equals("Erik") || userID.equals("Yoonjoo")){
 						%>
 				<li class="nav-item"><a class="nav-link" href="write.jsp">Write</a></li>
-				<li class="nav-item"><a class="nav-link" href="#">Read</a></li>
+				<li class="nav-item"><a class="nav-link" href="read.jsp">Read</a></li>
 				<li class="nav-item"><a class="nav-link" href="#">Calculate</a></li>
 				<% } %>				
 			</ul>

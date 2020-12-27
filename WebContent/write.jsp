@@ -17,10 +17,10 @@
 </head>
 <body>
 	<%
-	String userID = null;
-	if (session.getAttribute("userID") != null) {
-		userID = (String) session.getAttribute("userID");
-	}
+		String userID = null;
+		if(session.getAttribute("userID") != null) {
+			userID = (String) session.getAttribute("userID");
+		}
 	%>
 	<nav class="navbar navbar-expand-lg navbar-light bg-light">
 		<a class="navbar-brand" href="#">Kassaboken</a>
@@ -33,22 +33,19 @@
 
 		<div class="collapse navbar-collapse" id="navbarSupportedContent">
 			<ul class="navbar-nav mr-auto">
-				<li class="nav-item active"><a class="nav-link" href="#">Home
+				<li class="nav-item active"><a class="nav-link" href="main.jsp">Home
 						<span class="sr-only">(current)</span>
 				</a></li>
 				<%
-				if (userID.equals("guest")) {
-				%>
-				<li class="nav-item"><a class="nav-link" href="#">Read</a></li>
-				<%
-				} else if (userID.equals("Erik") || userID.equals("Yoonjoo")) {
-				%>
-				<li class="nav-item"><a class="nav-link" href="#">Write</a></li>
-				<li class="nav-item"><a class="nav-link" href="#">Read</a></li>
+					if(userID.equals("guest")) {
+						%>
+				<li class="nav-item"><a class="nav-link" href="read.jsp">Read</a></li>
+					<%} else if(userID.equals("Erik") || userID.equals("Yoonjoo")){
+						%>
+				<li class="nav-item"><a class="nav-link" href="write.jsp">Write</a></li>
+				<li class="nav-item"><a class="nav-link" href="read.jsp">Read</a></li>
 				<li class="nav-item"><a class="nav-link" href="#">Calculate</a></li>
-				<%
-				}
-				%>
+				<% } %>				
 			</ul>
 		</div>
 	</nav>
@@ -59,12 +56,12 @@
 
 				<div class="form-group">
 					<div class="input-group date" id="datetimepicker1"
-						data-target-input="nearest">
+						data-target-input="nearest" >
 						<input type="text" class="form-control datetimepicker-input"
-							data-target="#datetimepicker1">
+							data-target="#datetimepicker1" name="datum">
 						<div class="input-group-append" data-target="#datetimepicker1"
 							data-toggle="datetimepicker">
-							<div class="input-group-text">
+							<div class="input-group-text" >
 								<i class="fa fa-calendar"></i>
 							</div>
 						</div>
@@ -84,7 +81,7 @@
 						<option value="supermarket" name = "supermarket">Supermarket</option>
 						<option value="restaurant" name = "restaurant">Restaurant</option>
 					</select> 
-					<select class="form-control form-control-md mb-3" id="place">
+					<select class="form-control form-control-md mb-3" id="place" name = "place">
 						<option>Place</option>
 					</select>
 				</div>
@@ -104,9 +101,10 @@
 		src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.1/js/tempusdominus-bootstrap-4.min.js"></script>
 	<script type="text/javascript">
 		$('#datetimepicker1').datetimepicker({
-			format : 'L',
+			format : 'YYYY-MM-DD',
 			defalutDate : new Date()
 		});
+		
 	</script>
 
 

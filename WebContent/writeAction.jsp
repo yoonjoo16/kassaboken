@@ -2,10 +2,10 @@
  pageEncoding="UTF-8"%>
  
 <%@ page import="cashbook.CashbookDAO" %>
+<%@ page import="cashbook.PlaceDAO" %>
 <%@ page import="java.io.PrintWriter" %>
 <% request.setCharacterEncoding("UTF-8");%>
 
-<jsp:useBean id="cashbook" class="cashbook.Cashbook" scope="page" />
 <!DOCTYPE html>
 <html>
 <head>
@@ -32,13 +32,12 @@
 				script.println("history.back()");
 				script.println("</script>");
 			} else {
-				CashbookDAO cashbookDAO = new CashbookDAO();				
-				int result = cashbookDAO.write(userID,
-						request.getParameter("datum"), 
-						Integer.parseInt(request.getParameter("belopp")),
-						Integer.parseInt(request.getParameter("place_id"))						
-					);
-						
+				CashbookDAO cashbookDAO = new CashbookDAO();		
+				PlaceDAO placeDAO = new PlaceDAO();
+				String datum = request.getParameter("datum");
+				int place_id = placeDAO.getIdByPlace(request.getParameter("place"));
+				int belopp = Integer.parseInt(request.getParameter("belopp"));
+				int result = cashbookDAO.write(userID,datum,place_id,belopp);
 				if(result == -1) {		
 					script.println("<script>");
 					script.println("alert('Failed');");
@@ -46,12 +45,12 @@
 					script.println("</script>");
 				} else {
 					script.println("<script>");
+					script.println("alert('Success');");
 					script.println("location.href = 'write.jsp'");
 					script.println("</script>");
 				} 
 			}	
 	}
-	
 	
 %>
 </body>

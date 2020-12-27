@@ -25,7 +25,7 @@
 						<span class="sr-only">(current)</span>
 				</a></li>
 				<li class="nav-item"><a class="nav-link" href="write.jsp">Write</a></li>
-				<li class="nav-item"><a class="nav-link" href="#">Read</a></li>
+				<li class="nav-item"><a class="nav-link" href="read.jsp">Read</a></li>
 				<li class="nav-item"><a class="nav-link" href="#">Calculate</a>
 				</li>
 			</ul>
