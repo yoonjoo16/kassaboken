@@ -45,7 +45,8 @@ public class PlaceDAO {
 		return list;
 	}
 	
-	public Place getPlaceByID(int id) {
+	
+	public String getPlaceByID(int id) {
 		String SQL = "SELECT * FROM Place WHERE id = ?";
 		try {
 			PreparedStatement pstmt = conn.prepareStatement(SQL);
@@ -56,7 +57,26 @@ public class PlaceDAO {
 				place.setId(rs.getInt(1));
 				place.setPlace(rs.getString(2));
 				place.setCategory(rs.getString(3));
-				return place;
+				return place.getPlace();
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public String getCategoryByID(int id) {
+		String SQL = "SELECT * FROM Place WHERE id = ?";
+		try {
+			PreparedStatement pstmt = conn.prepareStatement(SQL);
+			pstmt.setInt(1, id);
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				Place place = new Place();
+				place.setId(rs.getInt(1));
+				place.setPlace(rs.getString(2));
+				place.setCategory(rs.getString(3));
+				return place.getCategory();
 			}
 		}catch(Exception e) {
 			e.printStackTrace();

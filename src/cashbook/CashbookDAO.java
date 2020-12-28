@@ -56,7 +56,7 @@ public class CashbookDAO {
 				cashbook.setUserID(rs.getString(2));
 				cashbook.setDatum(rs.getString(3));
 				cashbook.setPlace_id(rs.getInt(4));
-				cashbook.setBelopp(rs.getInt(5));
+				cashbook.setAmount(rs.getInt(5));
 				cashbook.setAvailable(rs.getInt(6));
 				list.add(cashbook);
 			}
