@@ -43,7 +43,7 @@ public class CashbookDAO {
 	}
 	
 	public ArrayList<Cashbook> getList(int year, int month) {
-		String SQL = "SELECT * FROM cashbook WHERE year(datum) = ? and month(datum) = ? and available = 1";
+		String SQL = "SELECT * FROM cashbook WHERE year(datum) = ? and month(datum) = ? ORDER BY id DESC";
 		ArrayList<Cashbook> list = new ArrayList<>();
 		try {
 			PreparedStatement pstmt = conn.prepareStatement(SQL);

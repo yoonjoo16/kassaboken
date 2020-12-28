@@ -18,7 +18,7 @@
 		}
 	%>
 	<nav class="navbar navbar-expand-lg navbar-light bg-light">
-		<a class="navbar-brand" href="#">Kassaboken</a>
+		<a class="navbar-brand" href="main.jsp">Kassaboken</a>
 		<button class="navbar-toggler" type="button" data-toggle="collapse"
 			data-target="#navbarSupportedContent"
 			aria-controls="navbarSupportedContent" aria-expanded="false"
@@ -37,7 +37,6 @@
 				<li class="nav-item"><a class="nav-link" href="read.jsp">Read</a></li>
 					<%} else if(userID.equals("Erik") || userID.equals("Yoonjoo")){
 						%>
-				<li class="nav-item"><a class="nav-link" href="write.jsp">Write</a></li>
 				<li class="nav-item"><a class="nav-link" href="read.jsp">Read</a></li>
 				<li class="nav-item"><a class="nav-link" href="#">Calculate</a></li>
 				<% } %>				
@@ -46,7 +45,13 @@
 	</nav>
 
 	<div class="container">
-
+<div class="jumbotron">
+  <h1 class="display-4">Hello!</h1>
+  <p class="lead">This is a cashbook for Yoonjoo and Erik.</p>
+  <hr class="my-4">
+  <p>If you are curious how it works, please log in and browse it.</p>
+  <a class="btn btn-primary btn-lg" href="login.jsp" role="button">Log in</a>
+</div>
 	</div>
 
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>

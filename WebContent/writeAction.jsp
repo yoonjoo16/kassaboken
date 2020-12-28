@@ -46,7 +46,7 @@
 				} else {
 					script.println("<script>");
 					script.println("alert('Success');");
-					script.println("location.href = 'write.jsp'");
+					script.println("location.href = 'read.jsp'");
 					script.println("</script>");
 				} 
 			}	
