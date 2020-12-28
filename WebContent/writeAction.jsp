@@ -23,10 +23,16 @@
 	if(userID == null) {
 		script.println("<script>");
 		script.println("alert('Please log in');");
-		script.println("location.href='login.jsp");
+		script.println("location.href='login.jsp'");
+		script.println("</script>");
+	} else if(userID.equals("guest")){
+		script.println("<script>");
+		script.println("alert('Guest cannot change the database');");
+		script.println("history.back()");
 		script.println("</script>");
 	} else {
-		if(request.getParameter("belopp") == null) {
+		if(request.getParameter("belopp") == null || request.getParameter("datum") == null || request.getParameter("place") == null ||
+				request.getParameter("belopp").equals("") || request.getParameter("datum").equals("") || request.getParameter("place").equals("")) {
 				script.println("<script>");
 				script.println("alert('Check if you filled everything');");
 				script.println("history.back()");
