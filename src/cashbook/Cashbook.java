@@ -1,7 +1,7 @@
 package cashbook;
 
 public class Cashbook {
-	private int id, available, place_id, amount;
+	private int id, paid, place_id, amount;
 	private String userID, datum;
 	
 	public int getId() {
@@ -10,11 +10,11 @@ public class Cashbook {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public int getAvailable() {
-		return available;
+	public int getPaid() {
+		return paid;
 	}
-	public void setAvailable(int available) {
-		this.available = available;
+	public void setPaid(int paid) {
+		this.paid = paid;
 	}
 	public int getPlace_id() {
 		return place_id;

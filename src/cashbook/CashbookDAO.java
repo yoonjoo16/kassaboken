@@ -27,14 +27,14 @@ public class CashbookDAO {
 	
 	
 	public int write(String userID, String datum, int place_id, int belopp) {
-		String SQL = "INSERT INTO cashbook (userID, datum, place_id, belopp, available) VALUES(?, ?, ?, ?, ?)";
+		String SQL = "INSERT INTO cashbook (userID, datum, place_id, belopp, paid) VALUES(?, ?, ?, ?, ?)";
 		try {
 			PreparedStatement pstmt = conn.prepareStatement(SQL);
 			pstmt.setString(1, userID);
 			pstmt.setString(2, datum);
 			pstmt.setInt(3, place_id);
 			pstmt.setInt(4, belopp);
-			pstmt.setInt(5, 1);
+			pstmt.setInt(5, 0);
 			return pstmt.executeUpdate();
 		}catch(Exception e) {
 			e.printStackTrace();
@@ -57,7 +57,7 @@ public class CashbookDAO {
 				cashbook.setDatum(rs.getString(3));
 				cashbook.setPlace_id(rs.getInt(4));
 				cashbook.setAmount(rs.getInt(5));
-				cashbook.setAvailable(rs.getInt(6));
+				cashbook.setPaid(rs.getInt(6));
 				list.add(cashbook);
 			}
 		}catch(Exception e) {
@@ -65,5 +65,17 @@ public class CashbookDAO {
 			
 		}
 		return list;
+	}
+	
+	public int delete(int id) {
+		String SQL = "DELETE FROM CASHBOOK WHERE id = ?;";
+		try {
+			PreparedStatement pstmt = conn.prepareStatement(SQL);
+			pstmt.setInt(1, id);
+			return pstmt.executeUpdate();
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return -1; //DB error
 	}
 }

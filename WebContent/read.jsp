@@ -26,14 +26,15 @@
 	if (session.getAttribute("userID") != null) {
 		userID = (String) session.getAttribute("userID");
 	}
-	if(userID == null || !(userID.equals("Yoonjoo") || userID.equals("Erik") || userID.equals("guest"))) {
-		%>
-		<script>
+	if (userID == null || !(userID.equals("Yoonjoo") || userID.equals("Erik") || userID.equals("guest"))) {
+	%>
+	<script>
 		location.href = 'login.jsp';
-		</script>
-		<%
+	</script>
+	<%
 	}
 	%>
+	<!-------------------- Nav bar ---------------------------------->
 	<nav class="navbar navbar-expand-lg navbar-light bg-light">
 		<a class="navbar-brand" href="main.jsp">Kassaboken</a>
 		<button class="navbar-toggler" type="button" data-toggle="collapse"
@@ -58,14 +59,16 @@
 							<span class="caret"></span></a>
 						<ul class="dropdown-menu">
 							<a class="dropdown-item" href="logoutAction.jsp">Log out</a></li>
-					
-				</ul>				
-			
-		</ul>
+
+				</ul>
+
+			</ul>
 		</div>
 	</nav>
 
 	<div class="container">
+
+	<!-------------------- load ---------------------------------->
 		<div class="row justify-content-md-center">
 			<form method="post" action="read.jsp">
 				<div class="btn-group btn-group-toggle" data-toggle="buttons"
@@ -116,6 +119,7 @@
 			</form>
 		</div>
 		<br>
+		
 		<div class="row justify-content-between">
 			<div class="col-auto mr-auto">
 				<%
@@ -140,6 +144,8 @@
 					aria-controls="collapseExample">Add</button>
 			</div>
 		</div>
+		
+			<!-------------------- Add ---------------------------------->
 		<div class="collapse" id="collapseExample">
 			<div class="card card-body">
 				<form method="post" action="writeAction.jsp">
@@ -157,55 +163,56 @@
 								</div>
 							</div>
 						</div>
-						
 						<div class="input-group col-5">
 							<select class="form-control form-control-md mb-3" id="category"
-								onchange="categoryChange(this)">
+								onchange="categoryChange(this.value)">
 								<option selected>Category</option>
-								<option value="supermarket" name="supermarket">Supermarket</option>
-								<option value="restaurant" name="restaurant">Restaurant</option>
-								<option value="alcohol" name="alcohol">Alcohol</option>
-								<option value="apotek" name="apotek">Apotek</option>
-								<option value="hobby" name="hobby">Hobby</option>
-								<option value="travel" name="travel">Travel</option>
+								<option value="Supermarket" name="supermarket">Supermarket</option>
+								<option value="Restaurant" name="restaurant">Restaurant</option>
+								<option value="Alcohol" name="alcohol">Alcohol</option>
+								<option value="Apotek" name="apotek">Apotek</option>
+								<option value="Hobby" name="hobby">Hobby</option>
+								<option value="Travel" name="travel">Travel</option>
 							</select> <select class="form-control form-control-md mb-3" id="place"
 								name="place">
 								<option></option>
 							</select>
 						</div>
-
 						<div class="input-group mb-3 col ">
 							<div class="input-group-prepend">
 								<span class="input-group-text">SEK</span>
 							</div>
-							<input type="text" class="form-control"
-								aria-label="Amount" name="belopp">
+							<input type="text" class="form-control" aria-label="Amount"
+								name="belopp">
 							<div class="input-group-append">
 								<span class="input-group-text">.00</span>
 							</div>
 						</div>
-
-	
 					</div>
-
 					<input type="submit" class="btn btn-primary pull-right"
 						value="Write">
 				</form>
-
 			</div>
 		</div>
 		<br>
 
+			<!-------------------- table---------------------------------->
 		<div class="row justify-content-md-center">
-			<table class="table table-striped "
+			<table class="table table-hover"
 				style="text-align: center; border: 1px solid #dddddd">
 				<thead>
 					<tr>
-						<th style="background-clor: #eeeeee; text-align: center;">Date</th>
-						<th style="background-clor: #eeeeee; text-align: center;">User</th>
-						<th style="background-clor: #eeeeee; text-align: center;">Amount</th>
-						<th style="background-clor: #eeeeee; text-align: center;">Place</th>
-						<th style="background-clor: #eeeeee; text-align: center;">Category</th>
+						<th
+							style="background-clor: #eeeeee; text-align: center; width: 17%">Date</th>
+						<th
+							style="background-clor: #eeeeee; text-align: center; width: 17%">User</th>
+						<th
+							style="background-clor: #eeeeee; text-align: center; width: 17%">Amount</th>
+						<th
+							style="background-clor: #eeeeee; text-align: center; width: 17%">Place</th>
+						<th
+							style="background-clor: #eeeeee; text-align: center; width: 17%">Category</th>
+						<th style="width: 15%"></th>
 					</tr>
 				</thead>
 				<tbody>
@@ -220,6 +227,24 @@
 						<td><%=list.get(i).getAmount()%> kr</td>
 						<td><%=placeDAO.getPlaceByID(list.get(i).getPlace_id())%></td>
 						<td><%=placeDAO.getCategoryByID(list.get(i).getPlace_id())%></td>
+						<td>
+							<button type="button" class="btn btn-primary btn-sm"
+								data-toggle="modal" data-target="#exampleModal"
+								data-datum="<%=list.get(i).getDatum()%>"
+								data-amount="<%=list.get(i).getAmount()%>"
+								data-user="<%=list.get(i).getUserID()%>"
+								data-place="<%=placeDAO.getPlaceByID(list.get(i).getPlace_id())%>"
+								data-category="<%=placeDAO.getCategoryByID(list.get(i).getPlace_id())%>">Edit</button>
+
+							&nbsp; <a href="deleteAction.jsp?id=<%=list.get(i).getId()%>"
+							onclick="return confirm('Do you want to delete it?')"><svg
+									xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+									fill="currentColor" class="bi bi-trash-fill"
+									viewBox="0 0 16 16">
+									<path
+										d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z" /></svg>
+						</a>
+						</td>
 					</tr>
 					<%
 					}
@@ -227,57 +252,92 @@
 				</tbody>
 			</table>
 		</div>
+
+		<!---------------------- Modal --------------------------------->
+
+		<div class="modal fade" id="exampleModal" tabindex="-1"
+			aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">Edit</h5>
+						<button type="button" class="close" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<form method="post" action="EditAction.jsp">
+							<div class="row">
+								<div class="form-group col">
+									<div class="input-group date" id="datetimepicker2"
+										data-target-input="nearest">
+										<input type="text" class="form-control datetimepicker-input"
+											data-target="#datetimepicker2" name="datum">
+										<div class="input-group-append" data-target="#datetimepicker2"
+											data-toggle="datetimepicker">
+											<div class="input-group-text">
+												<i class="fa fa-calendar"></i>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="input-group mb-3 col">
+									<div class="input-group-prepend">
+										<span class="input-group-text">User</span>
+									</div>
+									<input type="text" class="form-control" name="user">
+								</div>
+								<div class="input-group mb-3 col">
+									<div class="input-group-prepend">
+										<span class="input-group-text">SEK</span>
+									</div>
+									<input type="text" class="form-control" aria-label="Amount"
+										name="belopp">
+									<div class="input-group-append">
+										<span class="input-group-text">.00</span>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="input-group col">
+									<select class="form-control form-control-md mb-3" id="category-modal"
+										onchange="categoryChange(this)">
+										<option selected>Category</option>
+										<option value="Supermarket" >Supermarket</option>
+										<option value="Restaurant">Restaurant</option>
+										<option value="Alcohol" >Alcohol</option>
+										<option value="Apotek">Apotek</option>
+										<option value="Hobby">Hobby</option>
+										<option value="Travel">Travel</option>
+									</select> <select class="form-control form-control-md mb-3" id="place-modal"
+										name="place">
+										<option></option>
+									</select>
+								</div>
+							</div>
+
+							<button type="button" class="btn btn-secondary"
+								data-dismiss="modal">Close</button>
+							<input type="submit" class="btn btn-primary pull-right"
+								value="Edit">
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+
 	</div>
-	
+
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	<script src="js/bootstrap.js"></script>
 	<script type="text/javascript"
 		src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
 	<script type="text/javascript"
 		src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.1/js/tempusdominus-bootstrap-4.min.js"></script>
-	<script type="text/javascript">
-		$('#datetimepicker1').datetimepicker({
-			format : 'YYYY-MM-DD',
-			defalutDate : new Date()
-		});
-	</script>
-
-	<script>
-		function categoryChange(e) {
-			switch (e.value) {
-			case "supermarket":
-				var d = [ "ICA", "Lidl", "Coop", "Handlarn", "Lokchan", "Etc" ];
-				break;
-			case "alcohol":
-				var d = [ "Systembolaget", "Pub", "Etc" ];
-				break;
-			case "restaurant":
-				var d = [ "Hamburger", "Pizza", "Asian food", "Kebab/falafel",
-						"Swedish food", "Etc" ];
-				break;
-			case "apotek":
-				var d = [ "Apotea", "Etc" ];
-				break;
-			case "hobby":
-				var d = [ "Bowling", "Etc" ];
-				break;
-			case "travel":
-				var d = [ "Skånetrafiken", "SJ", "Flight ticket", "Ferry",
-						"Etc" ];
-				break;
-			}
-			var target = document.getElementById("place");
-			target.options.length = 0;
-
-			for (x in d) {
-				var opt = document.createElement("option");
-				opt.value = d[x];
-				opt.name = d[x];
-				opt.innerHTML = d[x];
-				target.appendChild(opt);
-			}
-		}
-	</script>
+	<script src=js/script.js></script>
 
 </body>
 </html>
