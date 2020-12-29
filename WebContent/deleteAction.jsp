@@ -40,10 +40,14 @@ request.setCharacterEncoding("UTF-8");
 	if (id == 0) {
 		script.println("<script>");
 		script.println("alert('Not valid')");
-		script.println("location.href='bbs.jsp'");
+		script.println("location.href='read.jsp'");
 		script.println("</script>");
 	}
 	CashbookDAO cashbookDAO = new CashbookDAO();
+	String date = cashbookDAO.getDateById(id);
+	String year = date.substring(0,4);
+	String month = date.substring(5,7);
+	
 	int result = cashbookDAO.delete(id);
 	if (result == -1) {
 		script.println("<script>");
@@ -52,7 +56,7 @@ request.setCharacterEncoding("UTF-8");
 		script.println("</script>");
 	} else {
 		script.println("<script>");
-		script.println("location.href = 'read.jsp'");
+		script.println("location.href ='read.jsp?year="+year+"&month="+month+"'");
 		script.println("</script>");
 	}
 	%>

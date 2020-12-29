@@ -40,8 +40,9 @@
 			} else {
 				CashbookDAO cashbookDAO = new CashbookDAO();		
 				PlaceDAO placeDAO = new PlaceDAO();
+				
 				String datum = request.getParameter("datum");
-				int place_id = placeDAO.getIdByPlace(request.getParameter("place"));
+				int place_id = placeDAO.getIdByPlace(request.getParameter("place"), request.getParameter("category"));
 				int belopp = Integer.parseInt(request.getParameter("belopp"));
 				int result = cashbookDAO.write(userID,datum,place_id,belopp);
 				if(result == -1) {		
@@ -51,8 +52,9 @@
 					script.println("</script>");
 				} else {
 					script.println("<script>");
-					script.println("alert('Success');");
-					script.println("location.href = 'read.jsp'");
+					String year = datum.substring(0,4);
+					String month = datum.substring(5,7);
+					script.println("location.href ='read.jsp?year="+year+"&month="+month+"'");
 					script.println("</script>");
 				} 
 			}	

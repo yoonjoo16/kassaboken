@@ -42,6 +42,22 @@ public class CashbookDAO {
 		return -1; //DB error
 	}
 	
+	public int update(int id, String user, String datum, int place_id, int belopp) {
+		String SQL = "UPDATE cashbook SET userID = ?, datum = ?, place_id = ?, belopp =? WHERE id = ?";
+		try {
+			PreparedStatement pstmt = conn.prepareStatement(SQL);
+			pstmt.setString(1, user);
+			pstmt.setString(2, datum);
+			pstmt.setInt(3, place_id);
+			pstmt.setInt(4, belopp);
+			pstmt.setInt(5, id);
+			return pstmt.executeUpdate();
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return -1; //DB error
+	}
+	
 	public ArrayList<Cashbook> getList(int year, int month) {
 		String SQL = "SELECT * FROM cashbook WHERE year(datum) = ? and month(datum) = ? ORDER BY datum DESC";
 		ArrayList<Cashbook> list = new ArrayList<>();
@@ -66,6 +82,23 @@ public class CashbookDAO {
 		}
 		return list;
 	}
+	
+	public String getDateById(int id) {
+		String SQL = "SELECT * FROM cashbook WHERE id = ?";
+		try {
+			PreparedStatement pstmt = conn.prepareStatement(SQL);
+			pstmt.setInt(1, id);
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				return rs.getString(3);
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+			
+		}
+		return "";
+	}
+	
 	
 	public int delete(int id) {
 		String SQL = "DELETE FROM CASHBOOK WHERE id = ?;";

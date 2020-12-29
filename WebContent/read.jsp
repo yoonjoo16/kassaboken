@@ -34,6 +34,17 @@
 	<%
 	}
 	%>
+
+	<%
+	CashbookDAO cashbookDAO = new CashbookDAO();
+	PlaceDAO placeDAO = new PlaceDAO();
+	int year = YearMonth.now().getYear();
+	int month = YearMonth.now().getMonthValue();
+	if (request.getParameter("year") != null && request.getParameter("month") != null) {
+		year = Integer.parseInt(request.getParameter("year").trim());
+		month = Integer.parseInt(request.getParameter("month").trim());
+	}
+	%>
 	<!-------------------- Nav bar ---------------------------------->
 	<nav class="navbar navbar-expand-lg navbar-light bg-light">
 		<a class="navbar-brand" href="main.jsp">Kassaboken</a>
@@ -68,70 +79,57 @@
 
 	<div class="container">
 
-	<!-------------------- load ---------------------------------->
+		<!-------------------- load ---------------------------------->
 		<div class="row justify-content-md-center">
 			<form method="post" action="read.jsp">
 				<div class="btn-group btn-group-toggle" data-toggle="buttons"
 					id="years">
 					<label class="btn btn-primary disabled"> <input
 						type="radio" name="year" value="0000" disabled> Year
-					</label> <label class="btn btn-secondary"> <input type="radio"
-						name="year" value="2019"> 2019
-					</label> <label class="btn btn-secondary"> <input type="radio"
-						name="year" value="2020" checked> 2020
-					</label> <label class="btn btn-secondary"> <input type="radio"
-						name="year" value="2021"> 2021
-					</label>
+					</label> 
+					<%for(int i = 2019; i < 2022; i++){
+						%>
+						<label class="btn btn-secondary">
+						<%if(year == i) { %>
+						<input type="radio" name="year" value="<%=i%>" checked>
+						<%
+						}else{ 
+						%>
+						<input type="radio" name="year" value="<%=i%>">
+						<% }%>
+						<%=i%>
+						</label>						
+					<% }%>
 				</div>
 
 
 				<div class="btn-group btn-group-toggle" data-toggle="buttons"
-					id="months">
+					id="months" >
 					<label class="btn btn-primary disabled"> <input
 						type="radio" name="month" id="option1" disabled> Month
-					</label> <label class="btn btn-secondary"> <input type="radio"
-						name="month" value="1">1
-					</label> <label class="btn btn-secondary"> <input type="radio"
-						name="month" value="2">2
-					</label> <label class="btn btn-secondary"> <input type="radio"
-						name="month" value="3">3
-					</label> <label class="btn btn-secondary"> <input type="radio"
-						name="month" value="4">4
-					</label> <label class="btn btn-secondary"> <input type="radio"
-						name="month" value="5">5
-					</label> <label class="btn btn-secondary"> <input type="radio"
-						name="month" value="6">6
-					</label> <label class="btn btn-secondary"> <input type="radio"
-						name="month" value="7">7
-					</label> <label class="btn btn-secondary"> <input type="radio"
-						name="month" value="8">8
-					</label> <label class="btn btn-secondary"> <input type="radio"
-						name="month" value="9">9
-					</label> <label class="btn btn-secondary"> <input type="radio"
-						name="month" value="10">10
-					</label> <label class="btn btn-secondary"> <input type="radio"
-						name="month" value="11">11
-					</label> <label class="btn btn-secondary"> <input type="radio"
-						name="month" value="12" checked>12
-					</label>
+					</label> 
+					<%for(int i = 1; i < 13; i++){
+						%>
+						<label class="btn btn-secondary">
+						<%if(month == i) { %>
+						<input type="radio" name="month" value="<%=i%>" checked>
+						<%
+						}else{ 
+						%>
+						<input type="radio" name="month" value="<%=i%>">
+						<% }%>
+						<%=i%>
+						</label>						
+					<% }%>
 				</div>
 				<input class="btn btn-primary" type="submit" value="Load">
 			</form>
 		</div>
 		<br>
-		
+
 		<div class="row justify-content-between">
 			<div class="col-auto mr-auto">
-				<%
-				CashbookDAO cashbookDAO = new CashbookDAO();
-				PlaceDAO placeDAO = new PlaceDAO();
-				int year = YearMonth.now().getYear();
-				int month = YearMonth.now().getMonthValue();
-				if (request.getParameter("year") != null && request.getParameter("month") != null) {
-					year = Integer.parseInt(request.getParameter("year").trim());
-					month = Integer.parseInt(request.getParameter("month").trim());
-				}
-				%>
+
 				<div class="alert alert-info" role="alert">
 					<%=year%>
 					-
@@ -144,8 +142,8 @@
 					aria-controls="collapseExample">Add</button>
 			</div>
 		</div>
-		
-			<!-------------------- Add ---------------------------------->
+
+		<!-------------------- Add ---------------------------------->
 		<div class="collapse" id="collapseExample">
 			<div class="card card-body">
 				<form method="post" action="writeAction.jsp">
@@ -165,7 +163,7 @@
 						</div>
 						<div class="input-group col-5">
 							<select class="form-control form-control-md mb-3" id="category"
-								onchange="categoryChange(this.value)">
+								name="category" onchange="categoryChange(this.value)">
 								<option selected>Category</option>
 								<option value="Supermarket" name="supermarket">Supermarket</option>
 								<option value="Restaurant" name="restaurant">Restaurant</option>
@@ -196,7 +194,7 @@
 		</div>
 		<br>
 
-			<!-------------------- table---------------------------------->
+		<!-------------------- table---------------------------------->
 		<div class="row justify-content-md-center">
 			<table class="table table-hover"
 				style="text-align: center; border: 1px solid #dddddd">
@@ -230,6 +228,7 @@
 						<td>
 							<button type="button" class="btn btn-primary btn-sm"
 								data-toggle="modal" data-target="#exampleModal"
+								data-id="<%=list.get(i).getId()%>"
 								data-datum="<%=list.get(i).getDatum()%>"
 								data-amount="<%=list.get(i).getAmount()%>"
 								data-user="<%=list.get(i).getUserID()%>"
@@ -267,9 +266,10 @@
 						</button>
 					</div>
 					<div class="modal-body">
-						<form method="post" action="EditAction.jsp">
+						<form method="post" action="editAction.jsp">
 							<div class="row">
 								<div class="form-group col">
+									<input type="hidden" name="id">
 									<div class="input-group date" id="datetimepicker2"
 										data-target-input="nearest">
 										<input type="text" class="form-control datetimepicker-input"
@@ -303,17 +303,18 @@
 							</div>
 							<div class="row">
 								<div class="input-group col">
-									<select class="form-control form-control-md mb-3" id="category-modal"
-										onchange="categoryChange(this)">
+									<select class="form-control form-control-md mb-3"
+										id="category-modal" onchange="categoryChange(this)"
+										name="category">
 										<option selected>Category</option>
-										<option value="Supermarket" >Supermarket</option>
+										<option value="Supermarket">Supermarket</option>
 										<option value="Restaurant">Restaurant</option>
-										<option value="Alcohol" >Alcohol</option>
+										<option value="Alcohol">Alcohol</option>
 										<option value="Apotek">Apotek</option>
 										<option value="Hobby">Hobby</option>
 										<option value="Travel">Travel</option>
-									</select> <select class="form-control form-control-md mb-3" id="place-modal"
-										name="place">
+									</select> <select class="form-control form-control-md mb-3"
+										id="place-modal" name="place">
 										<option></option>
 									</select>
 								</div>

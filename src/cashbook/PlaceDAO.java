@@ -84,11 +84,12 @@ public class PlaceDAO {
 		return null;
 	}
 	
-	public int getIdByPlace(String name) {
-		String SQL = "SELECT * FROM Place WHERE place = ?";
+	public int getIdByPlace(String place, String category) {
+		String SQL = "SELECT * FROM Place WHERE place = ? and category = ?";
 		try {
 			PreparedStatement pstmt = conn.prepareStatement(SQL);
-			pstmt.setString(1, name);
+			pstmt.setString(1, place);
+			pstmt.setString(2, category);
 			rs = pstmt.executeQuery();
 			if(rs.next()) {
 				return rs.getInt(1);
