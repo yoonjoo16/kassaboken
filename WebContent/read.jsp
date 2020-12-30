@@ -3,7 +3,6 @@
 <%@ page import="java.io.PrintWriter"%>
 <%@ page import="cashbook.CashbookDAO"%>
 <%@ page import="cashbook.Cashbook"%>
-<%@ page import="cashbook.PlaceDAO"%>
 <%@ page import="java.util.ArrayList"%>
 <%@ page import="java.time.YearMonth"%>
 
@@ -37,7 +36,6 @@
 
 	<%
 	CashbookDAO cashbookDAO = new CashbookDAO();
-	PlaceDAO placeDAO = new PlaceDAO();
 	int year = YearMonth.now().getYear();
 	int month = YearMonth.now().getMonthValue();
 	if (request.getParameter("year") != null && request.getParameter("month") != null) {
@@ -57,11 +55,11 @@
 
 		<div class="collapse navbar-collapse" id="navbarSupportedContent">
 			<ul class="navbar-nav mr-auto">
-				<li class="nav-item active"><a class="nav-link" href="main.jsp">Home
+				<li class="nav-item"><a class="nav-link" href="main.jsp">Home
 						<span class="sr-only">(current)</span>
 				</a></li>
-				<li class="nav-item"><a class="nav-link" href="read.jsp">Read</a></li>
-				<li class="nav-item"><a class="nav-link" href="#">Calculate</a></li>
+				<li class="nav-item active"><a class="nav-link" href="read.jsp">Read</a></li>
+				<li class="nav-item"><a class="nav-link" href="calculate.jsp">Calculate</a></li>
 
 				<ul class="nav navbar-pills navbar-right">
 					<li class="nav-item dropdown"><a href="#"
@@ -223,8 +221,8 @@
 						<td><%=list.get(i).getDatum()%></td>
 						<td><%=list.get(i).getUserID()%></td>
 						<td><%=list.get(i).getAmount()%> kr</td>
-						<td><%=placeDAO.getPlaceByID(list.get(i).getPlace_id())%></td>
-						<td><%=placeDAO.getCategoryByID(list.get(i).getPlace_id())%></td>
+						<td><%=list.get(i).getPlace()%></td>
+						<td><%=list.get(i).getCategory()%></td>
 						<td>
 							<button type="button" class="btn btn-primary btn-sm"
 								data-toggle="modal" data-target="#exampleModal"
@@ -232,8 +230,8 @@
 								data-datum="<%=list.get(i).getDatum()%>"
 								data-amount="<%=list.get(i).getAmount()%>"
 								data-user="<%=list.get(i).getUserID()%>"
-								data-place="<%=placeDAO.getPlaceByID(list.get(i).getPlace_id())%>"
-								data-category="<%=placeDAO.getCategoryByID(list.get(i).getPlace_id())%>">Edit</button>
+								data-place="<%=list.get(i).getPlace()%>"
+								data-category="<%=list.get(i).getCategory() %>">Edit</button>
 
 							&nbsp; <a href="deleteAction.jsp?id=<%=list.get(i).getId()%>"
 							onclick="return confirm('Do you want to delete it?')"><svg
@@ -304,7 +302,7 @@
 							<div class="row">
 								<div class="input-group col">
 									<select class="form-control form-control-md mb-3"
-										id="category-modal" onchange="categoryChange(this)"
+										id="category-modal" onchange="categoryChange(this.value)"
 										name="category">
 										<option selected>Category</option>
 										<option value="Supermarket">Supermarket</option>

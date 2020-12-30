@@ -26,6 +26,22 @@ $('#exampleModal').on('show.bs.modal', function(event) {
 
 })
 
+$('#calModal').on('show.bs.modal', function(event) {
+		var button = $(event.relatedTarget) 
+		var modal = $(this)
+		modal.find('.modal-body input[name="id"]').val(button.data('id'));
+		modal.find('.modal-body input[name="datum"]').val(button.data('datum'));
+		modal.find('.modal-body input[name="user"]').val(button.data('user'));
+		modal.find('.modal-body input[name="desc"]').val(button.data('desc'));
+		modal.find('.modal-body input[name="belopp"]').val(button.data('belopp'));	
+		
+		$(".modal-body #category-modal").val(button.data('category'));
+
+})
+
+$('#history').collapse()
+
+
 		
 function categoryChange(e) {
 			switch (e) {

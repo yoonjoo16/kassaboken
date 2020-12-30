@@ -26,15 +26,15 @@ public class CashbookDAO {
 	}
 	
 	
-	public int write(String userID, String datum, int place_id, int belopp) {
-		String SQL = "INSERT INTO cashbook (userID, datum, place_id, belopp, paid) VALUES(?, ?, ?, ?, ?)";
+	public int write(String userID, String datum, String category, String place, int belopp) {
+		String SQL = "INSERT INTO cashbook (userID, datum, category, place, belopp) VALUES(?, ?, ?, ?, ?)";
 		try {
 			PreparedStatement pstmt = conn.prepareStatement(SQL);
 			pstmt.setString(1, userID);
 			pstmt.setString(2, datum);
-			pstmt.setInt(3, place_id);
-			pstmt.setInt(4, belopp);
-			pstmt.setInt(5, 0);
+			pstmt.setString(3, category);
+			pstmt.setString(4, place);
+			pstmt.setInt(5, belopp);
 			return pstmt.executeUpdate();
 		}catch(Exception e) {
 			e.printStackTrace();
@@ -42,15 +42,16 @@ public class CashbookDAO {
 		return -1; //DB error
 	}
 	
-	public int update(int id, String user, String datum, int place_id, int belopp) {
-		String SQL = "UPDATE cashbook SET userID = ?, datum = ?, place_id = ?, belopp =? WHERE id = ?";
+	public int update(int id, String user, String datum, String category, String place, int belopp) {
+		String SQL = "UPDATE cashbook SET userID = ?, datum = ?, category = ?, place = ?, belopp =? WHERE id = ?";
 		try {
 			PreparedStatement pstmt = conn.prepareStatement(SQL);
 			pstmt.setString(1, user);
 			pstmt.setString(2, datum);
-			pstmt.setInt(3, place_id);
-			pstmt.setInt(4, belopp);
-			pstmt.setInt(5, id);
+			pstmt.setString(3, category);
+			pstmt.setString(4, place);
+			pstmt.setInt(5, belopp);
+			pstmt.setInt(6, id);
 			return pstmt.executeUpdate();
 		}catch(Exception e) {
 			e.printStackTrace();
@@ -71,9 +72,9 @@ public class CashbookDAO {
 				cashbook.setId(rs.getInt(1));
 				cashbook.setUserID(rs.getString(2));
 				cashbook.setDatum(rs.getString(3));
-				cashbook.setPlace_id(rs.getInt(4));
-				cashbook.setAmount(rs.getInt(5));
-				cashbook.setPaid(rs.getInt(6));
+				cashbook.setAmount(rs.getInt(4));
+				cashbook.setCategory(rs.getString(5));
+				cashbook.setPlace(rs.getString(6));
 				list.add(cashbook);
 			}
 		}catch(Exception e) {
@@ -106,6 +107,21 @@ public class CashbookDAO {
 			PreparedStatement pstmt = conn.prepareStatement(SQL);
 			pstmt.setInt(1, id);
 			return pstmt.executeUpdate();
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return -1; //DB error
+	}
+	
+	public int getSum(String user) {
+		String SQL = "SELECT sum(belopp) from cashbook where userID = ?";
+		try {
+			PreparedStatement pstmt = conn.prepareStatement(SQL);
+			pstmt.setString(1, user);
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				return rs.getInt(1);
+			}
 		}catch(Exception e) {
 			e.printStackTrace();
 		}

@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 
-<%@ page import="cashbook.CashbookDAO"%>
+<%@ page import="calculator.CalculatorDAO"%>
 <%@ page import="java.io.PrintWriter"%>
 <%
 request.setCharacterEncoding("UTF-8");
@@ -11,7 +11,7 @@ request.setCharacterEncoding("UTF-8");
 <html>
 <head>
 <meta charset="UTF-8">
-<title>JKassaboken</title>
+<title>Kassaboken</title>
 </head>
 <body>
 	<%
@@ -38,26 +38,26 @@ request.setCharacterEncoding("UTF-8");
 		id = Integer.parseInt(request.getParameter("id"));
 	}
 	if (request.getParameter("belopp") == null || request.getParameter("datum") == null || request.getParameter("user") == null
-			|| request.getParameter("place") == null || request.getParameter("belopp").equals("") || request.getParameter("user").equals("")
-			|| request.getParameter("datum").equals("") || request.getParameter("place").equals("")) {
+			|| request.getParameter("category") == null || request.getParameter("belopp").equals("") || request.getParameter("user").equals("")
+			|| request.getParameter("datum").equals("") || request.getParameter("category").equals("")) {
 		script.println("<script>");
 		script.println("alert('Check if you filled everything');");
 		script.println("history.back()");
 		script.println("</script>");
 	}else {
-		CashbookDAO cashbookDAO = new CashbookDAO();
+		CalculatorDAO calDAO = new CalculatorDAO();
 		String user = request.getParameter("user");
 		if(!(user.equals("Erik") || user.equals("Yoonjoo"))){
 			script.println("<script>");
 			script.println("alert('Check if you wrote right person, Erik or Yoonjoo.');");
 			script.println("history.back()");
 			script.println("</script>");
-		}
+		}   	
 		String datum = request.getParameter("datum");
 		String category = request.getParameter("category");
-		String place = request.getParameter("place");
+		String desc = request.getParameter("desc");
 		int belopp = Integer.parseInt(request.getParameter("belopp"));
-		int result = cashbookDAO.update(id, user, datum, category, place, belopp);
+		int result = calDAO.update(id, user, datum, belopp, category, desc);
 		if (result == -1) {
 			script.println("<script>");
 			script.println("alert('Failed');");
@@ -65,9 +65,8 @@ request.setCharacterEncoding("UTF-8");
 			script.println("</script>");
 		} else {
 			script.println("<script>");
-			String year = datum.substring(0,4);
-			String month = datum.substring(5,7);
-			script.println("location.href ='read.jsp?year="+year+"&month="+month+"'");
+			script.println("alert('Done!');");
+			script.println("location.href ='calculate.jsp'");
 			script.println("</script>");
 		}
 	}

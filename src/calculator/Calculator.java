@@ -1,21 +1,19 @@
-package cashbook;
+package calculator;
 
-public class Cashbook {
-	private int id, paid, amount;
-	private String userID, datum, category, place;
-	
+public class Calculator {
+	int id, belopp;
+	String userID, datum, category, description;
 	public int getId() {
 		return id;
 	}
 	public void setId(int id) {
 		this.id = id;
 	}
-
-	public int getAmount() {
-		return amount;
+	public int getBelopp() {
+		return belopp;
 	}
-	public void setAmount(int belopp) {
-		this.amount = belopp;
+	public void setBelopp(int belopp) {
+		this.belopp = belopp;
 	}
 	public String getUserID() {
 		return userID;
@@ -35,10 +33,11 @@ public class Cashbook {
 	public void setCategory(String category) {
 		this.category = category;
 	}
-	public String getPlace() {
-		return place;
+	public String getDescription() {
+		return description;
 	}
-	public void setPlace(String place) {
-		this.place = place;
+	public void setDescription(String description) {
+		this.description = description;
 	}
+
 }

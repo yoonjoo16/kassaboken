@@ -32,7 +32,7 @@
 						<span class="sr-only">(current)</span>
 				</a></li>
 				<li class="nav-item"><a class="nav-link" href="read.jsp">Read</a></li>
-				<li class="nav-item"><a class="nav-link" href="#">Calculate</a></li>
+				<li class="nav-item"><a class="nav-link" href="calculate.jsp">Calculate</a></li>
 				<%
 				if (userID != null &&(userID.equals("Yoonjoo") || userID.equals("Erik") || userID.equals("guest"))) {
 				%>

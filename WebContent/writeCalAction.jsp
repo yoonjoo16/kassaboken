@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
  pageEncoding="UTF-8"%>
  
-<%@ page import="cashbook.CashbookDAO" %>
+<%@ page import="cashbook.CalculatorDAO"%>
 <%@ page import="java.io.PrintWriter" %>
 <% request.setCharacterEncoding("UTF-8");%>
 
@@ -9,7 +9,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>JKassaboken</title>
+<title>Kassaboken</title>
 </head>
 <body>
 <%
@@ -30,21 +30,22 @@
 		script.println("history.back()");
 		script.println("</script>");
 	} else {
-		if(request.getParameter("belopp") == null || request.getParameter("datum") == null || request.getParameter("place") == null ||
-				request.getParameter("category") == null ||request.getParameter("category").equals("") ||
-				request.getParameter("belopp").equals("") || request.getParameter("datum").equals("") || request.getParameter("place").equals("")) {
+		if (request.getParameter("belopp") == null || request.getParameter("datum") == null 
+				|| request.getParameter("category") == null || request.getParameter("belopp").equals("") 
+				|| request.getParameter("datum").equals("") || request.getParameter("category").equals("")) {
 				script.println("<script>");
 				script.println("alert('Check if you filled everything');");
 				script.println("history.back()");
 				script.println("</script>");
 			} else {
-				CashbookDAO cashbookDAO = new CashbookDAO();		
-				
+				CalculatorDAO calDAO = new CalculatorDAO();	
 				String datum = request.getParameter("datum");
 				String category = request.getParameter("category");
-				String place = request.getParameter("place");
+				String desc = request.getParameter("desc");
+				
 				int belopp = Integer.parseInt(request.getParameter("belopp"));
-				int result = cashbookDAO.write(userID,datum,category,place,belopp);
+				
+				int result = calDAO.write(userID,datum,belopp,category,desc);
 				if(result == -1) {		
 					script.println("<script>");
 					script.println("alert('Failed');");
@@ -52,9 +53,7 @@
 					script.println("</script>");
 				} else {
 					script.println("<script>");
-					String year = datum.substring(0,4);
-					String month = datum.substring(5,7);
-					script.println("location.href ='read.jsp?year="+year+"&month="+month+"'");
+					script.println("location.href ='calculate.jsp'");
 					script.println("</script>");
 				} 
 			}	
