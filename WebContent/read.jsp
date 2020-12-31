@@ -282,12 +282,13 @@
 								</div>
 							</div>
 							<div class="row">
-								<div class="input-group mb-3 col">
-									<div class="input-group-prepend">
-										<span class="input-group-text">User</span>
-									</div>
-									<input type="text" class="form-control" name="user">
-								</div>
+												<div class="input-group col">
+													<select class="form-control form-control-md mb-3"
+														id="user-modal" name="user">
+														<option value="Erik">Erik</option>
+														<option value="Yoonjoo">Yoonjoo</option>
+													</select>
+												</div>
 								<div class="input-group mb-3 col">
 									<div class="input-group-prepend">
 										<span class="input-group-text">SEK</span>
@@ -304,7 +305,6 @@
 									<select class="form-control form-control-md mb-3"
 										id="category-modal" onchange="categoryChange(this.value)"
 										name="category">
-										<option selected>Category</option>
 										<option value="Supermarket">Supermarket</option>
 										<option value="Restaurant">Restaurant</option>
 										<option value="Alcohol">Alcohol</option>

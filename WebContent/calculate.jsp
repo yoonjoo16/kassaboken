@@ -298,18 +298,18 @@
 												<div class="input-group col">
 													<select class="form-control form-control-md mb-3"
 														id="category-modal" name="category">
-														<option selected>Category</option>
 														<option value="Swish">Swish</option>
 														<option value="Debt">Debt</option>
 													</select>
 												</div>
 											</div>
 											<div class="row">
-												<div class="input-group mb-3 col">
-													<div class="input-group-prepend">
-														<span class="input-group-text">User</span>
-													</div>
-													<input type="text" class="form-control" name="user">
+												<div class="input-group col">
+													<select class="form-control form-control-md mb-3"
+														id="user-modal" name="user">
+														<option value="Erik">Erik</option>
+														<option value="Yoonjoo">Yoonjoo</option>
+													</select>
 												</div>
 												<div class="input-group mb-3 col">
 													<div class="input-group-prepend">
