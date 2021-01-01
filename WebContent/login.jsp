@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+	<%@ page import="java.io.PrintWriter"%>
+	
 <!DOCTYPE html>
 <html>
 <head>
@@ -21,12 +23,29 @@
 
 		<div class="collapse navbar-collapse" id="navbarSupportedContent">
 			<ul class="navbar-nav mr-auto">
-				<li class="nav-item active"><a class="nav-link" href="#">Home
+				<li class="nav-item"><a class="nav-link" href="main.jsp">Home
 						<span class="sr-only">(current)</span>
 				</a></li>
 				<li class="nav-item"><a class="nav-link" href="read.jsp">Read</a></li>
-				<li class="nav-item"><a class="nav-link" href="#">Calculate</a>
+				<li class="nav-item"><a class="nav-link" href="calculate.jsp">Calculate</a>
 				</li>
+								<%
+				String userID = null;
+				if(session.getAttribute("userID") != null) {
+					userID = (String) session.getAttribute("userID");
+					PrintWriter script = response.getWriter();
+					script.println("<script>");
+					script.println("alert('Hi, " + userID + "! You don't need to log in again.');");
+					script.println("location.href='main.jsp'");
+					script.println("</script>");
+				}
+				else {
+			%>
+				<li class="nav-item active"><a class="nav-link" href="login.jsp">Log
+						in</a></li>
+				<%
+		}
+		%>
 			</ul>
 		</div>
 	</nav>

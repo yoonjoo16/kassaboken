@@ -24,18 +24,16 @@
 <body>
 	<%
 	String userID = null;
-	
+	PrintWriter script = response.getWriter();
 	if (session.getAttribute("userID") != null) {
 		userID = (String) session.getAttribute("userID");
 	}
 	if (userID == null) {
-	%>
-	<script>
-		location.href = 'login.jsp';
-	</script>
-	<%
+		script.println("<script>");
+		script.println("alert('Please log in');");
+		script.println("location.href='login.jsp'");
+		script.println("</script>");
 	} 
-	
 	String cashDB = "";
 	String calDB = "";
 	if(userID.equals("Yoonjoo") || userID.equals("Erik")){

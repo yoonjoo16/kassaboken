@@ -23,16 +23,16 @@
 	<%
 	String userID = null;
 	String db = "";
+	PrintWriter script = response.getWriter();
 	if (session.getAttribute("userID") != null) {
 		userID = (String) session.getAttribute("userID");
 	}
 	if (userID == null) {
-	%>
-	<script>
-		location.href = 'login.jsp';
-	</script>
-	<%
-	}	
+		script.println("<script>");
+		script.println("alert('Please log in');");
+		script.println("location.href='login.jsp'");
+		script.println("</script>");
+	} 
 	if(userID.equals("Yoonjoo") || userID.equals("Erik")){
 		db = "cashbook";
 	}else if(userID.equals("guest")){
@@ -90,7 +90,7 @@
 					<label class="btn btn-primary disabled"> <input
 						type="radio" name="year" value="0000" disabled> Year
 					</label> 
-					<%for(int i = 2019; i < 2022; i++){
+					<%for(int i = 2020; i < 2022; i++){
 						%>
 						<label class="btn btn-secondary">
 						<%if(year == i) { %>
