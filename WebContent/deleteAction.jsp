@@ -16,6 +16,7 @@ request.setCharacterEncoding("UTF-8");
 <body>
 	<%
 	String userID = null;
+	String db = "";
 	PrintWriter script = response.getWriter();
 	if (session.getAttribute("userID") != null) {
 		userID = (String) session.getAttribute("userID");
@@ -24,13 +25,14 @@ request.setCharacterEncoding("UTF-8");
 	if (userID == null) {
 		script.println("<script>");
 		script.println("alert('Please log in');");
-		script.println("location.href='login.jsp");
+		script.println("location.href='login.jsp'");
 		script.println("</script>");
-	} else if (!(userID.equals("Erik") || userID.equals("Yoonjoo"))) {
-		script.println("<script>");
-		script.println("alert('Guest cannot delete this')");
-		script.println("history.back()");
-		script.println("</script>");
+	} 
+	
+	if(userID.equals("Yoonjoo") || userID.equals("Erik")){
+		db = "cashbook";
+	}else if(userID.equals("guest")){
+		db = "cashbook_guest";
 	}
 
 	int id = 0;
@@ -43,11 +45,11 @@ request.setCharacterEncoding("UTF-8");
 		script.println("location.href='read.jsp'");
 		script.println("</script>");
 	}
-	CashbookDAO cashbookDAO = new CashbookDAO();
+	CashbookDAO cashbookDAO = new CashbookDAO(db);
 	String date = cashbookDAO.getDateById(id);
-	String year = date.substring(0,4);
-	String month = date.substring(5,7);
-	
+	String year = date.substring(0, 4);
+	String month = date.substring(5, 7);
+
 	int result = cashbookDAO.delete(id);
 	if (result == -1) {
 		script.println("<script>");
@@ -56,7 +58,7 @@ request.setCharacterEncoding("UTF-8");
 		script.println("</script>");
 	} else {
 		script.println("<script>");
-		script.println("location.href ='read.jsp?year="+year+"&month="+month+"'");
+		script.println("location.href ='read.jsp?year=" + year + "&month=" + month + "'");
 		script.println("</script>");
 	}
 	%>

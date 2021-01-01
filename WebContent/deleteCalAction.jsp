@@ -16,21 +16,22 @@ request.setCharacterEncoding("UTF-8");
 <body>
 	<%
 	String userID = null;
+	String calDB = "";
 	PrintWriter script = response.getWriter();
 	if (session.getAttribute("userID") != null) {
 		userID = (String) session.getAttribute("userID");
 	}
-
 	if (userID == null) {
 		script.println("<script>");
 		script.println("alert('Please log in');");
-		script.println("location.href='login.jsp");
+		script.println("location.href='login.jsp'");
 		script.println("</script>");
-	} else if (!(userID.equals("Erik") || userID.equals("Yoonjoo"))) {
-		script.println("<script>");
-		script.println("alert('Guest cannot delete this')");
-		script.println("history.back()");
-		script.println("</script>");
+	} 
+	
+	if(userID.equals("Yoonjoo") || userID.equals("Erik")){
+		calDB = "calculator";
+	}else if(userID.equals("guest")){
+		calDB = "calculator_guest";
 	}
 
 	int id = 0;
@@ -43,8 +44,8 @@ request.setCharacterEncoding("UTF-8");
 		script.println("location.href='read.jsp'");
 		script.println("</script>");
 	}
-	CalculatorDAO calDAO = new CalculatorDAO();
-	
+	CalculatorDAO calDAO = new CalculatorDAO(calDB);
+
 	int result = calDAO.delete(id);
 	if (result == -1) {
 		script.println("<script>");

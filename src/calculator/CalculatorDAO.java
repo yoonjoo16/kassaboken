@@ -11,15 +11,19 @@ import user.AdminInfo;
 public class CalculatorDAO{
 	private Connection conn;
 	private ResultSet rs;
+	private String db;
 	
-	public CalculatorDAO() {
+	public CalculatorDAO(String db) {
 		try {
-			String dbURL = "jdbc:mysql://localhost:3306/kassaboken?serverTimezone=UTC";
+			String dbURL = "jdbc:mysql://localhost:3306/yoonjoo16?useSSL=false";
+			//String dbURL = "jdbc:mysql://localhost:3306/kassaboken?serverTimezone=UTC";
 			AdminInfo admin = new AdminInfo();
 			String dbID = admin.getID();
 			String dbPassword = admin.getPW();
 			Class.forName("com.mysql.jdbc.Driver");
 			conn = DriverManager.getConnection(dbURL,dbID,dbPassword);
+			this.db = db;
+			
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -27,7 +31,7 @@ public class CalculatorDAO{
 	
 	
 	public int write(String userID, String datum, int belopp, String category, String desc) {
-		String SQL = "INSERT INTO calculator (userID, datum, belopp, category, description) VALUES(?, ?, ?, ?, ?)";
+		String SQL = String.format("INSERT INTO %s (userID, datum, belopp, category, description) VALUES(?, ?, ?, ?, ?)", db);
 		try {
 			PreparedStatement pstmt = conn.prepareStatement(SQL);
 			pstmt.setString(1, userID);
@@ -43,7 +47,8 @@ public class CalculatorDAO{
 	}
 	
 	public int update(int id, String userID, String datum, int belopp, String category, String desc) {
-		String SQL = "UPDATE calculator SET userID = ?, datum = ?,  belopp =?, category = ?, description = ? WHERE id = ?";
+		String SQL = String.format("UPDATE %s SET userID = ?, datum = ?,  belopp =?, category = ?, description = ? WHERE id = ?", db);
+		
 		try {
 			PreparedStatement pstmt = conn.prepareStatement(SQL);
 			pstmt.setString(1, userID);
@@ -61,7 +66,7 @@ public class CalculatorDAO{
 	
 	
 	public int delete(int id) {
-		String SQL = "DELETE FROM calculator WHERE id = ?;";
+		String SQL = String.format("DELETE FROM %s WHERE id = ?", db);
 		try {
 			PreparedStatement pstmt = conn.prepareStatement(SQL);
 			pstmt.setInt(1, id);
@@ -73,7 +78,7 @@ public class CalculatorDAO{
 	}
 	
 	public int getSum(String user, String category) {
-		String SQL = "SELECT sum(belopp) from calculator where userID = ? and category = ?";
+		String SQL = String.format("SELECT sum(belopp) from %s where userID = ? and category = ?", db);
 		try {
 			PreparedStatement pstmt = conn.prepareStatement(SQL);
 			pstmt.setString(1, user);
@@ -89,7 +94,7 @@ public class CalculatorDAO{
 	}
 	
 	public ArrayList<Calculator> getList() {
-		String SQL = "SELECT * FROM calculator ORDER BY datum DESC";
+		String SQL = String.format("SELECT * FROM %s ORDER BY datum DESC", db);
 		ArrayList<Calculator> list = new ArrayList<>();
 		try {
 			PreparedStatement pstmt = conn.prepareStatement(SQL);;

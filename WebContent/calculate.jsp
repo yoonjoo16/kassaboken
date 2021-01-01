@@ -24,21 +24,30 @@
 <body>
 	<%
 	String userID = null;
+	
 	if (session.getAttribute("userID") != null) {
 		userID = (String) session.getAttribute("userID");
 	}
-	if (userID == null || !(userID.equals("Yoonjoo") || userID.equals("Erik") || userID.equals("guest"))) {
+	if (userID == null) {
 	%>
 	<script>
 		location.href = 'login.jsp';
 	</script>
 	<%
+	} 
+	
+	String cashDB = "";
+	String calDB = "";
+	if(userID.equals("Yoonjoo") || userID.equals("Erik")){
+		cashDB = "cashbook";
+		calDB = "calculator";
+	}else if(userID.equals("guest")){
+		cashDB = "cashbook_guest";
+		calDB = "calculator_guest";
 	}
-	%>
 
-	<%
-	CashbookDAO cashbookDAO = new CashbookDAO();
-	CalculatorDAO calculatorDAO = new CalculatorDAO();
+	CashbookDAO cashbookDAO = new CashbookDAO(cashDB);
+	CalculatorDAO calculatorDAO = new CalculatorDAO(calDB);
 	int year = YearMonth.now().getYear();
 	int month = YearMonth.now().getMonthValue();
 	if (request.getParameter("year") != null && request.getParameter("month") != null) {

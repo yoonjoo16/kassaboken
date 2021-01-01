@@ -12,8 +12,8 @@ public class UserDAO {
 	
 	public UserDAO() {
 		try {
-		//	String dbURL = "jdbc:mysql://localhost:3306/BBS";
-			String dbURL = "jdbc:mysql://localhost:3306/kassaboken?serverTimezone=UTC";
+			String dbURL = "jdbc:mysql://localhost:3306/yoonjoo16?useSSL=false";
+			//String dbURL = "jdbc:mysql://localhost:3306/kassaboken?serverTimezone=UTC";
 			AdminInfo admin = new AdminInfo();
 			String dbID = admin.getID();
 			String dbPassword = admin.getPW();
@@ -25,8 +25,7 @@ public class UserDAO {
 	}
 	
 	public int login(String userID, String userPassword) {
-
-		String SQL = "SELECT userPassword FROM USER WHERE userID = ?";
+		String SQL = "SELECT userPassword FROM user WHERE userID = ?";
 		try {
 			pstmt = conn.prepareStatement(SQL);
 			pstmt.setString(1, userID);

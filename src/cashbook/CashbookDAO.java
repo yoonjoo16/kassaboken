@@ -11,15 +11,18 @@ import user.AdminInfo;
 public class CashbookDAO {
 	private Connection conn;
 	private ResultSet rs;
+	private String db;
 	
-	public CashbookDAO() {
+	public CashbookDAO(String db) {
 		try {
-			String dbURL = "jdbc:mysql://localhost:3306/kassaboken?serverTimezone=UTC";
+			String dbURL = "jdbc:mysql://localhost:3306/yoonjoo16?useSSL=false";
+		//	String dbURL = "jdbc:mysql://localhost:3306/kassaboken?serverTimezone=UTC";
 			AdminInfo admin = new AdminInfo();
 			String dbID = admin.getID();
 			String dbPassword = admin.getPW();
 			Class.forName("com.mysql.jdbc.Driver");
 			conn = DriverManager.getConnection(dbURL,dbID,dbPassword);
+			this.db = db;
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -27,7 +30,7 @@ public class CashbookDAO {
 	
 	
 	public int write(String userID, String datum, String category, String place, int belopp) {
-		String SQL = "INSERT INTO cashbook (userID, datum, category, place, belopp) VALUES(?, ?, ?, ?, ?)";
+		String SQL = String.format("INSERT INTO %s (userID, datum, category, place, belopp) VALUES(?, ?, ?, ?, ?)", db);	
 		try {
 			PreparedStatement pstmt = conn.prepareStatement(SQL);
 			pstmt.setString(1, userID);
@@ -39,11 +42,11 @@ public class CashbookDAO {
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
-		return -1; //DB error
+		return -1; 
 	}
 	
 	public int update(int id, String user, String datum, String category, String place, int belopp) {
-		String SQL = "UPDATE cashbook SET userID = ?, datum = ?, category = ?, place = ?, belopp =? WHERE id = ?";
+		String SQL = String.format("UPDATE %s SET userID = ?, datum = ?, category = ?, place = ?, belopp =? WHERE id = ?", db);	
 		try {
 			PreparedStatement pstmt = conn.prepareStatement(SQL);
 			pstmt.setString(1, user);
@@ -60,7 +63,7 @@ public class CashbookDAO {
 	}
 	
 	public ArrayList<Cashbook> getList(int year, int month) {
-		String SQL = "SELECT * FROM cashbook WHERE year(datum) = ? and month(datum) = ? ORDER BY datum DESC";
+		String SQL = String.format("SELECT * FROM %s WHERE year(datum) = ? and month(datum) = ? ORDER BY datum DESC", db);	
 		ArrayList<Cashbook> list = new ArrayList<>();
 		try {
 			PreparedStatement pstmt = conn.prepareStatement(SQL);
@@ -77,6 +80,7 @@ public class CashbookDAO {
 				cashbook.setPlace(rs.getString(6));
 				list.add(cashbook);
 			}
+			
 		}catch(Exception e) {
 			e.printStackTrace();
 			
@@ -85,7 +89,7 @@ public class CashbookDAO {
 	}
 	
 	public String getDateById(int id) {
-		String SQL = "SELECT * FROM cashbook WHERE id = ?";
+		String SQL = String.format("SELECT * FROM %s WHERE id = ?", db);
 		try {
 			PreparedStatement pstmt = conn.prepareStatement(SQL);
 			pstmt.setInt(1, id);
@@ -102,7 +106,7 @@ public class CashbookDAO {
 	
 	
 	public int delete(int id) {
-		String SQL = "DELETE FROM CASHBOOK WHERE id = ?;";
+		String SQL = String.format("DELETE FROM %s WHERE id = ?", db);
 		try {
 			PreparedStatement pstmt = conn.prepareStatement(SQL);
 			pstmt.setInt(1, id);
@@ -114,7 +118,7 @@ public class CashbookDAO {
 	}
 	
 	public int getSum(String user) {
-		String SQL = "SELECT sum(belopp) from cashbook where userID = ?";
+		String SQL = String.format("SELECT sum(belopp) from %s WHERE userID = ?", db);
 		try {
 			PreparedStatement pstmt = conn.prepareStatement(SQL);
 			pstmt.setString(1, user);

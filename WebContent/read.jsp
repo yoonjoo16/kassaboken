@@ -22,26 +22,31 @@
 <body>
 	<%
 	String userID = null;
+	String db = "";
 	if (session.getAttribute("userID") != null) {
 		userID = (String) session.getAttribute("userID");
 	}
-	if (userID == null || !(userID.equals("Yoonjoo") || userID.equals("Erik") || userID.equals("guest"))) {
+	if (userID == null) {
 	%>
 	<script>
 		location.href = 'login.jsp';
 	</script>
 	<%
+	}	
+	if(userID.equals("Yoonjoo") || userID.equals("Erik")){
+		db = "cashbook";
+	}else if(userID.equals("guest")){
+		db = "cashbook_guest";
 	}
-	%>
-
-	<%
-	CashbookDAO cashbookDAO = new CashbookDAO();
 	int year = YearMonth.now().getYear();
 	int month = YearMonth.now().getMonthValue();
 	if (request.getParameter("year") != null && request.getParameter("month") != null) {
 		year = Integer.parseInt(request.getParameter("year").trim());
 		month = Integer.parseInt(request.getParameter("month").trim());
 	}
+	
+	CashbookDAO cashbookDAO = new CashbookDAO(db);
+
 	%>
 	<!-------------------- Nav bar ---------------------------------->
 	<nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -214,7 +219,6 @@
 				<tbody>
 					<%
 					ArrayList<Cashbook> list = cashbookDAO.getList(year, month);
-
 					for (int i = 0; i < list.size(); i++) {
 					%>
 					<tr>

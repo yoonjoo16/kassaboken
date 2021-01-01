@@ -17,6 +17,7 @@ request.setCharacterEncoding("UTF-8");
 	<%
 	String userID = null;
 	PrintWriter script = response.getWriter();
+	String db = "";
 	if (session.getAttribute("userID") != null) {
 		userID = (String) session.getAttribute("userID");
 	}
@@ -24,35 +25,31 @@ request.setCharacterEncoding("UTF-8");
 	if (userID == null) {
 		script.println("<script>");
 		script.println("alert('Please log in');");
-		script.println("location.href='login.jsp");
+		script.println("location.href='login.jsp'");
 		script.println("</script>");
-	} else if (!(userID.equals("Erik") || userID.equals("Yoonjoo"))) {
-		script.println("<script>");
-		script.println("alert('Guest cannot delete this')");
-		script.println("history.back()");
-		script.println("</script>");
+	} 
+	
+	if(userID.equals("Yoonjoo") || userID.equals("Erik")){
+		db = "cashbook";
+	}else if(userID.equals("guest")){
+		db = "cashbook_guest";
 	}
 
 	int id = 0;
 	if (request.getParameter("id") != null) {
 		id = Integer.parseInt(request.getParameter("id"));
 	}
-	if (request.getParameter("belopp") == null || request.getParameter("datum") == null || request.getParameter("user") == null
-			|| request.getParameter("place") == null || request.getParameter("belopp").equals("") || request.getParameter("user").equals("")
+	if (request.getParameter("belopp") == null || request.getParameter("datum") == null
+			|| request.getParameter("user") == null || request.getParameter("place") == null
+			|| request.getParameter("belopp").equals("") || request.getParameter("user").equals("")
 			|| request.getParameter("datum").equals("") || request.getParameter("place").equals("")) {
 		script.println("<script>");
 		script.println("alert('Check if you filled everything');");
 		script.println("history.back()");
 		script.println("</script>");
-	}else {
-		CashbookDAO cashbookDAO = new CashbookDAO();
+	} else {
+		CashbookDAO cashbookDAO = new CashbookDAO(db);
 		String user = request.getParameter("user");
-		if(!(user.equals("Erik") || user.equals("Yoonjoo"))){
-			script.println("<script>");
-			script.println("alert('Check if you wrote right person, Erik or Yoonjoo.');");
-			script.println("history.back()");
-			script.println("</script>");
-		}
 		String datum = request.getParameter("datum");
 		String category = request.getParameter("category");
 		String place = request.getParameter("place");
@@ -65,12 +62,14 @@ request.setCharacterEncoding("UTF-8");
 			script.println("</script>");
 		} else {
 			script.println("<script>");
-			String year = datum.substring(0,4);
-			String month = datum.substring(5,7);
-			script.println("location.href ='read.jsp?year="+year+"&month="+month+"'");
+			String year = datum.substring(0, 4);
+			String month = datum.substring(5, 7);
+			script.println("location.href ='read.jsp?year=" + year + "&month=" + month + "'");
 			script.println("</script>");
 		}
 	}
 	%>
+	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+	<script src="js/bootstrap.js"></script>
 </body>
 </html>

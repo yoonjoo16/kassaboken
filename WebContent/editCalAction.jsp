@@ -17,6 +17,7 @@ request.setCharacterEncoding("UTF-8");
 	<%
 	String userID = null;
 	PrintWriter script = response.getWriter();
+	
 	if (session.getAttribute("userID") != null) {
 		userID = (String) session.getAttribute("userID");
 	}
@@ -24,15 +25,18 @@ request.setCharacterEncoding("UTF-8");
 	if (userID == null) {
 		script.println("<script>");
 		script.println("alert('Please log in');");
-		script.println("location.href='login.jsp");
+		script.println("location.href='login.jsp'");
 		script.println("</script>");
-	} else if (!(userID.equals("Erik") || userID.equals("Yoonjoo"))) {
-		script.println("<script>");
-		script.println("alert('Guest cannot delete this')");
-		script.println("history.back()");
-		script.println("</script>");
+	} 
+	
+	String calDB = "";
+	
+	if(userID.equals("Yoonjoo") || userID.equals("Erik")){
+		calDB = "calculator";
+	}else if(userID.equals("guest")){
+		calDB = "calculator_guest";
 	}
-
+	
 	int id = 0;
 	if (request.getParameter("id") != null) {
 		id = Integer.parseInt(request.getParameter("id"));
@@ -45,14 +49,8 @@ request.setCharacterEncoding("UTF-8");
 		script.println("history.back()");
 		script.println("</script>");
 	}else {
-		CalculatorDAO calDAO = new CalculatorDAO();
+		CalculatorDAO calDAO = new CalculatorDAO(calDB);
 		String user = request.getParameter("user");
-		if(!(user.equals("Erik") || user.equals("Yoonjoo"))){
-			script.println("<script>");
-			script.println("alert('Check if you wrote right person, Erik or Yoonjoo.');");
-			script.println("history.back()");
-			script.println("</script>");
-		}   	
 		String datum = request.getParameter("datum");
 		String category = request.getParameter("category");
 		String desc = request.getParameter("desc");
@@ -70,6 +68,9 @@ request.setCharacterEncoding("UTF-8");
 			script.println("</script>");
 		}
 	}
+
 	%>
+	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+	<script src="js/bootstrap.js"></script>
 </body>
 </html>

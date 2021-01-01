@@ -9,12 +9,13 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>JKassaboken</title>
+<title>Kassaboken</title>
 </head>
 <body>
 <%
 	String userID = null;
 	PrintWriter script = response.getWriter();
+	String db = "";
 	if(session.getAttribute("userID") != null) {
 		userID = (String) session.getAttribute("userID");
 	}
@@ -24,13 +25,15 @@
 		script.println("alert('Please log in');");
 		script.println("location.href='login.jsp'");
 		script.println("</script>");
-	} else if(userID.equals("guest")){
-		script.println("<script>");
-		script.println("alert('Guest cannot change the database');");
-		script.println("history.back()");
-		script.println("</script>");
-	} else {
-		if(request.getParameter("belopp") == null || request.getParameter("datum") == null || request.getParameter("place") == null ||
+	} 
+	
+	if(userID.equals("Yoonjoo") || userID.equals("Erik")){
+		db = "cashbook";
+	}else if(userID.equals("guest")){
+		db = "cashbook_guest";
+	}
+	
+	if(request.getParameter("belopp") == null || request.getParameter("datum") == null || request.getParameter("place") == null ||
 				request.getParameter("category") == null ||request.getParameter("category").equals("") ||
 				request.getParameter("belopp").equals("") || request.getParameter("datum").equals("") || request.getParameter("place").equals("")) {
 				script.println("<script>");
@@ -38,7 +41,7 @@
 				script.println("history.back()");
 				script.println("</script>");
 			} else {
-				CashbookDAO cashbookDAO = new CashbookDAO();		
+				CashbookDAO cashbookDAO = new CashbookDAO(db);		
 				
 				String datum = request.getParameter("datum");
 				String category = request.getParameter("category");
@@ -58,8 +61,9 @@
 					script.println("</script>");
 				} 
 			}	
-	}
 	
 %>
+	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+	<script src="js/bootstrap.js"></script>
 </body>
 </html>
