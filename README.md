@@ -15,6 +15,7 @@ However, my partner had problem using functions in Google Sheet, and therefore I
 
 ## Process
 * Already in March 2020, I made a program using javaFX. The program works parsing the Google sheet files and it loads/saves information there.
+If you are interested, see https://github.com/yoonjoo16/kassaboken_java
 * Because my partner prefered a web application, I started to plan for it. To make it possible, I took a summer course in 2020, and learned basic of HTML, CSS and Javascript.
 * To use a database, I learned how to use MySQL watching Youtube tutorials.
 * I searched how to use SQL in HTML, and found JSP. I learned JSP watching Youtube tutorials.
